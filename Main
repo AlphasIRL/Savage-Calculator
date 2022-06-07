@@ -1,0 +1,141 @@
+from sys import exit
+
+msg_0 = "Enter an equation"
+
+msg_1 = "Do you even know what numbers are? Stay focused!"
+
+msg_2 = "Yes ... an interesting math operation. You've slept through all classes, haven't you?"
+
+msg_3 = "Yeah... division by zero. Smart move..."
+
+msg_4 = "Do you want to store the result? (y / n):"
+
+msg_5 = "Do you want to continue calculations? (y / n):"
+
+msg_6 = " ... lazy"
+
+msg_7 = " ... very lazy"
+
+msg_8 = " ... very, very lazy"
+
+msg_9 = "You are"
+
+last_3_msg = ["Are you sure? It is only one digit! (y / n)",
+              "Don't be silly! It's just one number! Add to the memory? (y / n)",
+              "Last chance! Do you really want to embarrass yourself? (y / n)"]
+
+operations = ["+", "-", "*", "/"]
+
+answers = ["y", "n"]
+
+M = 0
+
+
+def is_one_digit(number):
+    number = float(number)
+    if -10 < number < 10 and number.is_integer():
+        return True
+    else:
+        return False
+
+
+def laziness():
+    msg = ""
+    if is_one_digit(x) and is_one_digit(y):
+        msg = msg + msg_6
+    if x == 1 or y == 1 and operation == "*":
+        msg = msg + msg_7
+    if x == 0 or y == 0 and operation != "/":
+        msg = msg + msg_8
+    if msg != "":
+        msg = msg_9 + msg
+        print(msg)
+# equation starts here
+
+
+while True:
+    print(msg_0)
+    x, operation, y = (input(" ")).split()
+
+    # M value gets inserted
+
+    if x == "M":
+        x = M
+    else:
+        try:
+            x = float(x)
+        except ValueError:
+            print(msg_1)
+            continue
+    if y == "M":
+        y = M
+    else:
+        try:
+            y = float(y)
+        except ValueError:
+            print(msg_1)
+            continue
+    if operation not in operations:
+        print(msg_2)
+        continue
+
+    # lazy function starts here
+
+    laziness()
+
+    if operation == "+":
+        result = x + y
+    elif operation == "-":
+        result = x - y
+    elif operation == "*":
+        result = x * y
+    elif operation == "/" and y != 0:
+        result = x / y
+    else:
+        print(msg_3)
+        continue
+    print(result)
+
+    # memory starts here
+
+    while True:
+        print(msg_4)
+        answer_1 = input(" ")
+        if answer_1 == "y" and not is_one_digit(result):
+            M = result
+        elif answer_1 == "n":
+            pass
+        elif answer_1 not in answers:
+            continue
+
+        # memory check starts here
+        if answer_1 == "y" and is_one_digit(result):
+            msg_index = 0
+            while True:
+                print(last_3_msg[msg_index])
+                answer_2 = input(" ")
+                while True:
+                    if answer_2 not in answers:
+                        print(last_3_msg[msg_index])
+                        answer_2 = input(" ")
+                    else:
+                        break
+                if msg_index < 2:
+                    msg_index += 1
+                else:
+                    M = result
+                    break
+                if answer_2 == "n":
+                    break
+        # continuation starts here
+
+        while True:
+            print(msg_5)
+            answer_3 = input(" ")
+            if answer_3 not in answers:
+                continue
+            if answer_3 == "n":
+                exit()
+            if answer_3 == "y":
+                break
+        break
